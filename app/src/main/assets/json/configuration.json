@@ -1,0 +1,35 @@
+{
+  "settings": {
+    "screenshots_enabled": true
+  },
+  "rules": [
+    {
+      "patterns": [
+        ".*"
+      ],
+      "properties": {
+        "context": "default",
+        "uri": "mumtree://fragment/web",
+        "pull_to_refresh_enabled": true
+      }
+    },
+    {
+      "patterns": [
+        "^$", "^/$", "^/profile$"
+      ],
+      "properties": {
+        "uri": "mumtree://fragment/web/tab",
+        "presentation": "replace_root"
+      }
+    },
+    {
+      "patterns": [
+        "^/login$", "^/sign_up$"
+      ],
+      "properties": {
+        "context": "modal",
+        "uri": "mumtree://fragment/web/modal"
+      }
+    }
+  ]
+}
