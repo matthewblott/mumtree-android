@@ -9,8 +9,16 @@ import java.net.URL
 
 interface NavDestination: TurboNavDestination {
 
+  val tabsViewModel: TabsViewModel get() =
+    (sessionNavHostFragment as SessionNavHostFragment)
+      .tabsViewModel
+  
   override fun shouldNavigateTo(newLocation: String): Boolean {
     return when {
+      isTabUrl(newLocation)->{
+        switchToTabForUrl(newLocation)        
+        false 
+      } 
       isExternal(newLocation) -> {
         //TODO: open in browser false
         false
@@ -33,7 +41,16 @@ interface NavDestination: TurboNavDestination {
   }
   private fun isExternal(location: String): Boolean { return !location.startsWith(Api.rootUrl)
   }
-
+  fun switchToTabForUrl(url: String) { 
+    val mainActivity =
+    sessionNavHostFragment.activity as MainActivity
+    val tabId = tabsViewModel.tabForUrl(url)?.id ?: R.id.tab_home
+    when(pathProperties.context) { TurboNavPresentationContext.MODAL -> navigateUp() else -> {}
+    }
+    mainActivity.tabBar.selectedItemId = tabId
+  }
+  private fun isTabUrl(url: String): Boolean { return tabsViewModel.tabForUrl(url) != null
+  }
   override fun getNavigationOptions(
     newLocation: String,
     newPathProperties: TurboPathConfigurationProperties

@@ -36,6 +36,10 @@ class SessionNavHostFragment : TurboSessionNavHostFragment() {
   override fun onSessionCreated() {
     super.onSessionCreated()
     session.webView.settings.userAgentString = "Mumtree Turbo Native Android"
+
+    session.webView.addJavascriptInterface( 
+      WebBridgeMessageHandler(this), "messageHandler"
+    ) 
   }
 
   override val pathConfigurationLocation: TurboPathConfiguration.Location
